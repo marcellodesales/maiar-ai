@@ -1,9 +1,13 @@
----
 name: ♻️ CI Workflow
+run-name: ♻️ CI Workflow for PR ${{ github.ref_name }} by @${{ github.actor }}
 on:
   pull_request:
     branches:
-      - "*"
+      - "main"
+      - "develop"
+      - "feature/**"
+      - "bugfix/**"
+      - "hotfix/**"
 
 env:
   CI: ${{ vars.CI }}
@@ -14,24 +18,9 @@ jobs:
     name: 🧹 Commit Lint
     runs-on: ubuntu-latest
     steps:
-      - name: 🛒 Checkout
-        uses: actions/checkout@v4
+      - uses: ./.github/actions/checkout-and-pnpm-install
         with:
           fetch-depth: 0
-
-      - name: 🌎 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-
-      - name: 📦 Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: package.json
-          run_install: false
-
-      - name: 📦 Install Dependencies
-        run: pnpm install
 
       - name: 🧹 Lint Commits
         uses: wagoid/commitlint-github-action@v6
@@ -39,26 +28,13 @@ jobs:
           configFile: .commitlintrc.ts
           helpURL: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
 
-  build-lint:
+  code-lint:
     name: 🧱🧹 Build Packages and Lint Codebase
     runs-on: ubuntu-latest
     steps:
-      - name: 🛒 Checkout
-        uses: actions/checkout@v4
-
-      - name: 🌎 Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/checkout-and-pnpm-install
         with:
-          node-version-file: package.json
-
-      - name: 📦 Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: package.json
-          run_install: false
-
-      - name: 📦 Install Dependencies
-        run: pnpm install
+          fetch-depth: 0
 
       # NOTE: Must build packages before linting due to official plugins dependency on @maiar-ai/core package - Linting will fail upfront otherwise
       - name: 🧱 Build Packages
