@@ -18,7 +18,7 @@ jobs:
     name: 🧹 Commit Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/checkout-and-pnpm-install
+      - uses: ${{ github.repository }}/.github/actions/checkout-and-pnpm-install
         with:
           fetch-depth: 0
 
@@ -32,7 +32,7 @@ jobs:
     name: 🧱🧹 Build Packages and Lint Codebase
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/checkout-and-pnpm-install
+      - uses: ${{ github.repository }}/.github/actions/checkout-and-pnpm-install
         with:
           fetch-depth: 0
 
