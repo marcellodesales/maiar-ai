@@ -1,5 +1,5 @@
-name: checkout-and-pnpm-install
-description: "Shared steps for checkout, node setup, and dependency installation"
+name: setup-node-pnpm-install
+description: "Shared steps for node setup, and dependency installation"
 inputs:
   fetch-depth:
     description: "Checkout fetch depth"
