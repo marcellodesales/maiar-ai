@@ -20,4 +20,5 @@ runs:
         run_install: false
 
     - name: 📦 Install Dependencies
+      shell: bash
       run: pnpm install
