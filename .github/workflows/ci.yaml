@@ -18,9 +18,12 @@ jobs:
     name: 🧹 Commit Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/checkout-and-pnpm-install/
+      - name: 🛒 Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - uses: ./.github/actions/checkout-and-pnpm-install
 
       - name: 🧹 Lint Commits
         uses: wagoid/commitlint-github-action@v6
@@ -32,9 +35,12 @@ jobs:
     name: 🧱🧹 Build Packages and Lint Codebase
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/checkout-and-pnpm-install/
+      - name: 🛒 Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - uses: ./.github/actions/checkout-and-pnpm-install
 
       # NOTE: Must build packages before linting due to official plugins dependency on @maiar-ai/core package - Linting will fail upfront otherwise
       - name: 🧱 Build Packages
