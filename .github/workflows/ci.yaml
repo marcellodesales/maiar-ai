@@ -29,8 +29,22 @@ jobs:
           configFile: .commitlintrc.ts
           helpURL: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
 
+  build:
+    name: 🧱 Build Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-node-pnpm-install
+
+      # NOTE: Must build packages before linting due to official plugins dependency on @maiar-ai/core package - Linting will fail upfront otherwise
+      - name: 🧱 Build Packages
+        run: pnpm run build
+
   code-lint:
-    name: 🧱🧹 Build Packages and Lint Codebase
+    name: 🧹 Lint Codebase
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: 🛒 Checkout
