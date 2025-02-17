@@ -1,0 +1,24 @@
+name: setup-node-pnpm-install
+description: "Shared steps for node setup, and dependency installation"
+inputs:
+  fetch-depth:
+    description: "Checkout fetch depth"
+    default: 0
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🌎 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: package.json
+
+    - name: 📦 Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        package_json_file: package.json
+        run_install: false
+
+    - name: 📦 Install Dependencies
+      shell: bash
+      run: pnpm install
